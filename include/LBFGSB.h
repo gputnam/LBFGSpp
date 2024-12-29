@@ -42,13 +42,21 @@ private:
     inline void reset(int n)
     {
         const int m = m_param.m;
+
+          std::cout << "RESET m_bfgs " << n << " " << m << std::endl;
         m_bfgs.reset(n, m);
+          std::cout << "RESET m_xp " << n << std::endl;
         m_xp.resize(n);
+          std::cout << "RESET m_grad " << n << std::endl;
         m_grad.resize(n);
+          std::cout << "RESET m_gradp " << n << std::endl;
         m_gradp.resize(n);
+          std::cout << "RESET m_drt " << n << std::endl;
         m_drt.resize(n);
-        if (m_param.past > 0)
+        if (m_param.past > 0) {
+          std::cout << "RESET m_fx " << m_param.past << std::endl;
             m_fx.resize(m_param.past);
+        }
     }
 
     // Project the vector x to the bound constraint set
@@ -118,14 +126,19 @@ public:
     {
         using std::abs;
 
+          std::cout << "IN MINIMIZE\n";
+
         // Dimension of the vector
         const int n = x.size();
         if (lb.size() != n || ub.size() != n)
             throw std::invalid_argument("'lb' and 'ub' must have the same size as 'x'");
 
+          std::cout << "ABOUT TO FORCE BOUNDS\n";
         // Check whether the initial vector is within the bounds
         // If not, project to the feasible set
         force_bounds(x, lb, ub);
+
+          std::cout << "ABOUT TO RESET\n";
 
         // Initialization
         reset(n);
@@ -133,6 +146,7 @@ public:
         // The length of lag for objective function value to test convergence
         const int fpast = m_param.past;
 
+          std::cout << "ABOUT TO CALL INPUT FUNCTION\n";
         // Evaluate function and compute gradient
         fx = f(x, m_grad);
         m_projgnorm = proj_grad_norm(x, m_grad, lb, ub);
