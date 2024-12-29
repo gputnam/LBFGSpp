@@ -5,6 +5,7 @@
 #define LBFGSPP_LBFGSB_H
 
 #include <stdexcept>  // std::invalid_argument
+#include <iostream>
 #include <vector>
 #include <Eigen/Core>
 #include "LBFGSpp/Param.h"
